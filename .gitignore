@@ -1,0 +1,6 @@
+App/Backend/Go/go.mod
+App/Backend/Go/go.sum
+App/Backend/Terraform/Azure/testAzureVMIaC/terraform.tfstate
+App/Backend/Terraform/Azure/testAzureVMIaC/terraform.tfstate.backup
+App/Backend/Terraform/Azure/testAzureVMIaC/.terraform.lock.hcl
+App/Backend/Terraform/Azure/testAzureVMIaC/.terraform
