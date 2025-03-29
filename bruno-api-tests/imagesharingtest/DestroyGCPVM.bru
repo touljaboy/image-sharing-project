@@ -1,0 +1,21 @@
+meta {
+  name: DestroyGCPVM
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:9090/v1/tf
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "action": "GCP/testGCPVMIaC",
+    "tfcall": "apply",
+    "parameters": {
+      "tags": "{\"Owner\"=\"User\"}"
+    }
+  }
+}

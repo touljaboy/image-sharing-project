@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
+	"os"
 	"server/actions"
 
 	// "time"
@@ -46,7 +48,15 @@ func performTfAction(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"received": body.Action})
+
+	// Testing new convention to return vms ip address in GCP
+	response, err := os.ReadFile(fmt.Sprintf("../Terraform/%s/response.txt", body.Action))
+	if err != nil {
+		context.JSON(http.StatusOK, gin.H{"No_Response_From": body.Action})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"Data": string(response)})
+
 }
 
 // logic for adding an azure vm

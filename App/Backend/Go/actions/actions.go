@@ -18,11 +18,16 @@ func TfDeployment(action string, tfcall string, parameters map[string]string) er
 	command := fmt.Sprintf("cd ../Terraform/%s && terraform %s -auto-approve", action, tfcall)
 	//append parameters to command (-var="<key>=<value>"). terraform files should have default values set for each parameter
 	//if there are no parameters, just skip
-	if len(parameters) != 0 {
-		for key, value := range parameters {
-			command += fmt.Sprintf(" -var=\"%s=%s\"", key, value)
-		}
+	for key, value := range parameters {
+		command += fmt.Sprintf(" -var='%s=%s'", key, value)
 	}
+	if tfcall != "destroy" {
+		command += " && terraform output > response.txt"
+	} else {
+		command += " && echo Status = Demolished > response.txt"
+	}
+
+	//Debug
 	fmt.Println(command)
 	cmd := exec.Command("bash", "-c", command)
 	return cmd.Run()
