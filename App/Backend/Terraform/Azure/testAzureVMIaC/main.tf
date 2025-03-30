@@ -1,11 +1,15 @@
+#since tags will be used for cost analysis, they should be applied at a resource group level.
+
 resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
   location = var.location
+  tags = var.tags
 }
 
 resource "azurerm_resource_group" "nwrg" {
   name     = var.nwrg_resource_group_name
   location = var.location
+  tags = var.tags
 }
 
 resource "azurerm_virtual_network" "vnet" {
@@ -77,4 +81,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
+
+  tags = var.tags
 }
