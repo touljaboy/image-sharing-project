@@ -1,3 +1,13 @@
+data "cloudinit_config" "example" {
+  gzip          = true
+  base64_encode = true
+
+  part {
+    content_type = "text/cloud-config"
+    content      = file("${path.module}/cloud-init.yaml")
+  }
+}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -17,6 +27,8 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
-
+  user_data = data.cloudinit_config.example.rendered
   tags = var.tags
 }
+
+#TODO add a VPC, then manage the security rules inside to properly test the cloud-init

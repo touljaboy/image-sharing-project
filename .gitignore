@@ -9,3 +9,4 @@ App/Backend/Terraform/Azure/testAzureVMIaC/.terraform
 *terraform.tfstate
 *terraform.tfstate.backup
 credentials
+*response.txt

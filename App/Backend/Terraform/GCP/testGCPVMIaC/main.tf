@@ -11,6 +11,8 @@ resource "google_compute_instance" "vm_instance" {
     }
   }
 
+  metadata_startup_script = file("${path.module}/startup.sh")
+
   network_interface {
     network = "default"
 
@@ -18,4 +20,6 @@ resource "google_compute_instance" "vm_instance" {
       // Ephemeral public IP
     }
   }
+
+  # TODO ADD A VPC and configure and stuff
 }

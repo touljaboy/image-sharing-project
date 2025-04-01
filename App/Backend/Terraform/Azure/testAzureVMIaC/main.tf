@@ -1,3 +1,13 @@
+data "cloudinit_config" "example" {
+  gzip          = true
+  base64_encode = true
+
+  part {
+    content_type = "text/cloud-config"
+    content      = file("${path.module}/cloud-init.yaml")
+  }
+}
+
 #since tags will be used for cost analysis, they should be applied at a resource group level.
 
 resource "azurerm_resource_group" "rg" {
@@ -54,6 +64,28 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
+resource "azurerm_network_security_group" "example" {
+  name                = "example-nsg"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  security_rule {
+    name                       = "testhttp"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_subnet_network_security_group_association" "example" {
+  subnet_id                 = azurerm_subnet.subnet.id
+  network_security_group_id = azurerm_network_security_group.example.id
+}
 
 
 resource "azurerm_linux_virtual_machine" "vm" {
@@ -81,6 +113,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
-
+  custom_data = data.cloudinit_config.example.rendered
   tags = var.tags
 }
