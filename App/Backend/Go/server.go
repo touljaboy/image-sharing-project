@@ -31,6 +31,7 @@ func main() {
 	// 	MaxAge:           12 * time.Hour,
 	// }))
 	router.POST("/v1/tf/", performTfAction)
+	router.GET("/v1/tf/", getTfStatus)
 
 	// should also have endpoints for ansible based actions if needed
 	router.Run("localhost:9090")
@@ -57,6 +58,13 @@ func performTfAction(context *gin.Context) {
 	}
 	context.JSON(http.StatusOK, gin.H{"Data": string(response)})
 
+}
+
+// Im currently experimenting with different approaches to this function, think Ill need some cache/hashing mechanism to give each deployment an id and store info in a database (maybe even redis) for quick access
+func getTfStatus(context *gin.Context) {
+	// get all tf statuses for now, will think of a better design, this is just a concept for now
+	jsonData := actions.GetAllTfDeployments()
+	context.JSON(http.StatusOK, jsonData)
 }
 
 // logic for adding an azure vm
