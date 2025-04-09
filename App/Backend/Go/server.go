@@ -8,7 +8,7 @@ import (
 
 	// "time"
 
-	// "github.com/gin-contrib/cors"
+	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,19 +22,18 @@ type TfRequestBody struct {
 func main() {
 
 	router := gin.Default()
-	// router.Use(cors.New(cors.Config{
-	// 	AllowOrigins:     []string{"http://localhost:5500"},
-	// 	AllowMethods:     []string{"GET", "POST"},
-	// 	AllowHeaders:     []string{"Content-Type"},
-	// 	ExposeHeaders:    []string{"Content-Length"},
-	// 	AllowCredentials: true,
-	// 	MaxAge:           12 * time.Hour,
-	// }))
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:5173"},
+		AllowMethods:     []string{"GET", "POST"},
+		AllowHeaders:     []string{"Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 	router.POST("/v1/tf/", performTfAction)
 	router.GET("/v1/tf/", getTfStatus)
 
 	// should also have endpoints for ansible based actions if needed
-	router.Run("localhost:9090")
+	router.Run(":9090")
 }
 
 func performTfAction(context *gin.Context) {
