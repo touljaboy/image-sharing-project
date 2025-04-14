@@ -1,0 +1,1 @@
+[] - use the terraform plan -o <<filename>> to generate plans when the initial configuration is prepared. Then, when you apply the plan, you dont need the --auto-approve flag.
