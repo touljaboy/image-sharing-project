@@ -1,1 +1,2 @@
 [] - use the terraform plan -o <<filename>> to generate plans when the initial configuration is prepared. Then, when you apply the plan, you dont need the --auto-approve flag.
+[] - definetely look into hashicorp packer. It's useful for images
