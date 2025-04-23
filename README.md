@@ -1,4 +1,4 @@
-# Project Name
+# Image-Sharing-Project (temporary name until I come up with something better)
 
 🚧 **Early Development Stage** 🚧
 
